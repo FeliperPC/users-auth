@@ -17,17 +17,21 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./entities/user.entity");
 const typeorm_2 = require("typeorm");
+const hashing_service_1 = require("../auth/hashing/hashing.service");
 let UserService = class UserService {
     userService;
-    constructor(userService) {
+    hashingService;
+    constructor(userService, hashingService) {
         this.userService = userService;
+        this.hashingService = hashingService;
     }
     async create(createUserDto) {
+        const passwordHash = await this.hashingService.hash(createUserDto.password);
         try {
             const userData = {
                 name: createUserDto.name,
                 email: createUserDto.email,
-                passwordHash: createUserDto.password
+                passwordHash,
             };
             const newUser = this.userService.create(userData);
             return await this.userService.save(newUser);
@@ -84,6 +88,7 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        hashing_service_1.HashingService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map
