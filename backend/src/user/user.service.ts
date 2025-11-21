@@ -59,7 +59,7 @@ export class UserService {
     };
 
     if (updateUserDto.password) {
-      partialUser['passwordHash'] = updateUserDto.password;
+      partialUser['passwordHash'] =  await this.hashingService.hash(updateUserDto.password);;
     }
 
     const personToUpdate = await this.userService.preload({
