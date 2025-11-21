@@ -14,6 +14,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const user_module_1 = require("./user/user.module");
 const auth_module_1 = require("./auth/auth.module");
+const class_transformer_1 = require("class-transformer");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,6 +32,7 @@ exports.AppModule = AppModule = __decorate([
                 autoLoadEntities: Boolean(process.env.DATABASE_AUTOLOADENTITIES),
                 synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
             }),
+            class_transformer_1.ClassTransformer,
             user_module_1.UserModule,
             auth_module_1.AuthModule
         ],
