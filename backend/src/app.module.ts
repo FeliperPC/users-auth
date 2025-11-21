@@ -19,10 +19,10 @@ import { ClassTransformer } from 'class-transformer';
       password: process.env.DATABASE_PASSWORD,
       autoLoadEntities: Boolean(process.env.DATABASE_AUTOLOADENTITIES),
       synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
-  }),
+    }),
     ClassTransformer,
     UserModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
