@@ -34,7 +34,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             class_transformer_1.ClassTransformer,
             user_module_1.UserModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

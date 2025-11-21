@@ -43,8 +43,8 @@ let UserService = class UserService {
     async findAll() {
         const users = await this.userService.find({
             order: {
-                id: 'desc'
-            }
+                id: 'desc',
+            },
         });
         return users;
     }
@@ -52,7 +52,7 @@ let UserService = class UserService {
         const user = await this.userService.findOne({
             where: {
                 id,
-            }
+            },
         });
         if (!user)
             throw new common_1.NotFoundException('User not found');
@@ -60,14 +60,14 @@ let UserService = class UserService {
     }
     async update(id, updateUserDto) {
         const partialUser = {
-            name: updateUserDto?.name
+            name: updateUserDto?.name,
         };
         if (updateUserDto.password) {
             partialUser['passwordHash'] = updateUserDto.password;
         }
         const personToUpdate = await this.userService.preload({
             id,
-            ...partialUser
+            ...partialUser,
         });
         if (!personToUpdate)
             throw new common_1.NotFoundException('User not found');
@@ -77,7 +77,7 @@ let UserService = class UserService {
         const user = await this.userService.findOne({
             where: {
                 id,
-            }
+            },
         });
         if (!user)
             throw new common_1.NotFoundException('User not found');
