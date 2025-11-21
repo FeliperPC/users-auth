@@ -17,8 +17,6 @@ export class AuthTokenGuard implements CanActivate {
     const request : Request = context.switchToHttp().getRequest()
     const token : string | undefined = request.headers.authorization?.split(' ')[1]
 
-    console.log(token, this.jwtConfiguration)
-
     if(!token) throw new UnauthorizedException("User without session")
 
     try{
