@@ -1,13 +1,11 @@
 import LoginForm from './components/LoginForm'
+import {Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <>
-      <div className='flex flex-col items-center justify-center px-4 h-screen gap-10'>
-        <p className='font-bold text-2xl'>Login</p>
-        <LoginForm />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<LoginForm/>}/>
+    </Routes>
   )
 }
 
