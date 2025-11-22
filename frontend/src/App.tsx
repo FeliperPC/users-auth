@@ -1,14 +1,10 @@
-import { useState } from 'react'
-import './App.css'
 import LoginForm from './components/LoginForm'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div className='border border-red-100 font-bold text-pink-500'>Hello World</div>
-      <div>
+      <div className='flex flex-col items-center justify-center px-4 h-screen gap-10'>
+        <p className='font-bold text-2xl'>Login</p>
         <LoginForm />
       </div>
     </>
