@@ -10,12 +10,14 @@ export default function LoginForm(){
       <div className="flex flex-col gap-7">
         <div>
           <p className="text-sm text-gray-700">Email Adress</p>
-          <input type="text" className="border border-slate-200 rounded-sm w-full h-10 p-2" placeholder="email@email.com"/>
+          <input type="text" className="focus:outline-gray-300 border border-slate-200 rounded-sm w-full h-10 p-2" placeholder="email@email.com"/>
         </div>
         <div>
           <p className="text-sm text-gray-700">Password</p>
           <div className="relative">
-            <input type={showPassword ? "text" : "password"} className="border border-slate-200 rounded-sm w-full h-10 p-2"/>
+            <input type={showPassword ? "text" : "password"}
+              className="focus:outline-gray-300 focus:outline-none border border-slate-200 rounded-sm w-full h-10 p-2"
+            />
             <button
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
               onClick={handleShowPassword}
