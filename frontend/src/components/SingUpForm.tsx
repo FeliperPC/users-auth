@@ -1,9 +1,8 @@
 import { EyeOff, Eye } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
 
-export default function LoginForm(){
+export default function SingUpForm(){
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   function handleShowPassword(){
@@ -11,9 +10,17 @@ export default function LoginForm(){
   }
   return (
     <div className="flex flex-col items-center justify-center px-4 h-screen gap-10">
-      <p className="font-bold text-2xl">Login</p>
+      <p className="font-bold text-2xl">Sing up</p>
       <div className="w-full flex flex-col gap-8">
         <div className="flex flex-col gap-7">
+          <div>
+            <p className="text-sm text-gray-700">Name</p>
+            <input
+              type="text"
+              className="focus:outline-gray-300 border border-slate-200 rounded-sm w-full h-10 p-2"
+              placeholder="Joshua Adams"
+            />
+          </div>
           <div>
             <p className="text-sm text-gray-700">Email Adress</p>
             <input
@@ -23,7 +30,7 @@ export default function LoginForm(){
             />
           </div>
           <div>
-            <p className="text-sm text-gray-700">Password</p>
+            <p className="text-sm text-gray-700">Create password</p>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -38,15 +45,16 @@ export default function LoginForm(){
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 items-center">
-          <button className="bg-gray-950 text-slate-100 w-full py-2.5 font-semibold rounded-4xl">
-            Login
+        <div className="flex gap-2">
+          <button 
+            className="text-gray-950 border border-gray-950 w-full py-2.5 font-semibold rounded-4xl"
+            onClick={()=>navigate('/')}
+            >
+            Cancel
           </button>
-          <p className="text-sm">Don't have an Account? {" "}
-            <span className="underline text-gray-700">
-              <Link to={'/singup'}>Sing up here</Link>
-            </span>
-          </p>
+          <button className="bg-gray-950 text-slate-100 w-full py-2.5 font-semibold rounded-4xl">
+            Sing up
+          </button>
         </div>
       </div>
     </div>
