@@ -2,6 +2,7 @@ import { EyeOff, Eye } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { register } from "../services/register"
+import axios from "axios"
 
 export default function SingUpForm(){
   const navigate = useNavigate()
@@ -35,8 +36,10 @@ export default function SingUpForm(){
         const response = await register(form)
         alert('User created successfully')
         navigate('/')
-      } catch (error){
-        alert('Server error')
+      } catch (error : unknown){
+        if(axios.isAxiosError(error)){
+          alert(error.message)
+        }
       }
     }
   }
