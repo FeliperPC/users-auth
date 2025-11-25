@@ -8,3 +8,12 @@ export async function auth({email,password}:LoginDto){
   })
   return response.data
 }
+
+export async function authMe(token:string){
+  const response = await api.get("/auth/me",{
+    headers :{
+      Authorization:`Barrier ${token}`,
+    },
+  })
+  return response.data
+}

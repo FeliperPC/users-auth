@@ -1,4 +1,24 @@
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { authMe } from "../services/auth"
+
 export default function Dashboard(){
+  const navigate = useNavigate()
+
+  function logout(){
+    sessionStorage.removeItem("token")
+    navigate('/')
+  }
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token")
+    async function LoadUserData(){
+      const userData = await authMe(token||'')
+      console.log(userData);
+    }
+    LoadUserData()
+  },[])
+
   return (
     <div className="flex flex-col items-center justify-center px-4 h-screen gap-10">
       <p className="font-bold text-2xl">Dashboard</p>
@@ -18,15 +38,20 @@ export default function Dashboard(){
           </div>
         </div>
         <div className="flex gap-2 flex-row-reverse">
-          <button className="bg-red-700 text-slate-100 w-full py-2.5 font-semibold rounded-4xl">
+          <button type="button" className="bg-red-700 text-slate-100 w-full py-2.5 font-semibold rounded-4xl">
             Delete user
           </button>
-          <button
+          <button type="button"
             className="text-gray-950 border border-gray-950 w-full py-2.5 font-semibold rounded-4xl"
             >
             Update user
           </button>
         </div>
+        <button type="button" 
+          className="bg-gray-950 text-slate-100 w-full py-2.5 font-semibold rounded-4xl"
+          onClick={logout}
+          >Logout
+        </button>
       </div>
     </div>
   )

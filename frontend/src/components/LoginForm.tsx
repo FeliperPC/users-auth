@@ -24,7 +24,8 @@ export default function LoginForm(){
     e.preventDefault()
     if(validate()){
       try{
-        const token = await auth(loginForm)
+        const {token} = await auth(loginForm)
+        sessionStorage.setItem('token',token)
         navigate('/dashboard')
       } catch( error:unknown ){
         if (axios.isAxiosError(error)) {

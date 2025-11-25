@@ -12,6 +12,9 @@ import { HashingService } from './hashing/hashing.service';
 import jwtConfig from './config/jwt.config';
 import * as config from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { UserService } from 'src/user/user.service';
+import { tokenPayloadDto } from './dto/token-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +28,8 @@ export class AuthService {
     private readonly jwtConfiguration: config.ConfigType<typeof jwtConfig>,
 
     private readonly jwtService: JwtService,
+
+    private readonly userService : UserService
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -57,5 +62,17 @@ export class AuthService {
     return {
       token: token,
     };
+  }
+
+  getMe(req:Request){
+    const token = req.headers?.authorization?.split(' ')[1]
+    if(!token) {
+      throw new UnauthorizedException("User without session")
+    }
+    const tokenInfo : tokenPayloadDto = this.jwtService.verify(token)
+    if(!tokenInfo) throw new UnauthorizedException("Token expired, please login again")
+
+    const userInfo = this.userService.findOne(Number(token.sub),tokenInfo)
+    return userInfo
   }
 }

@@ -9,13 +9,14 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { AuthTokenGuard } from './guards/auth-token.guard';
+import { UserService } from 'src/user/user.service';
 
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync(jwtConfig.asProvider()),
-    ConfigModule.forFeature(jwtConfig)
+    ConfigModule.forFeature(jwtConfig),
   ],
   providers: [
     {
@@ -24,6 +25,7 @@ import { AuthTokenGuard } from './guards/auth-token.guard';
     },
     AuthTokenGuard,
     AuthService,
+    UserService
   ],
   controllers: [AuthController],
   exports: [HashingService, JwtModule, ConfigModule, AuthTokenGuard],
