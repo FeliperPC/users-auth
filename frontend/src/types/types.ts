@@ -8,3 +8,10 @@ export type LoginDto={
   email: string,
   password: string
 }
+
+export type User ={
+  name:string,
+  email:string,
+  id: number,
+  password?: string,
+}

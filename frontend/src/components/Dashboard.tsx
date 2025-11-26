@@ -1,9 +1,11 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { authMe } from "../services/auth"
+import type { User } from "../types/types"
 
 export default function Dashboard(){
   const navigate = useNavigate()
+  const [user, setUser] = useState<User>({} as User)
 
   function logout(){
     sessionStorage.removeItem("token")
@@ -12,12 +14,15 @@ export default function Dashboard(){
 
   useEffect(()=>{
     const token = sessionStorage.getItem("token")
-    async function LoadUserData(){
-      const userData = await authMe(token||'')
-      console.log(userData);
+    if(!token) {
+      navigate('/unauthorized')
     }
-    LoadUserData()
-  },[])
+    async function loadUserData(){
+      const userData = await authMe(token as string)
+      setUser(userData)
+    }
+    loadUserData()
+  },[navigate])
 
   return (
     <div className="flex flex-col items-center justify-center px-4 h-screen gap-10">
@@ -26,15 +31,11 @@ export default function Dashboard(){
         <div className="flex flex-col gap-7">
           <div>
             <p className="text-sm text-gray-700">Name</p>
-            <p>Loren Ipsu</p>
+            <p>{user.name}</p>
           </div>
           <div>
             <p className="text-sm text-gray-700">Email Adress</p>
-            <p>email@email.com</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-700">Password</p>
-            <p>1234502</p>
+            <p>{user.email}</p>
           </div>
         </div>
         <div className="flex gap-2 flex-row-reverse">
@@ -47,7 +48,7 @@ export default function Dashboard(){
             Update user
           </button>
         </div>
-        <button type="button" 
+        <button type="button"
           className="bg-gray-950 text-slate-100 w-full py-2.5 font-semibold rounded-4xl"
           onClick={logout}
           >Logout

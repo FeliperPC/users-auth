@@ -64,7 +64,7 @@ export class AuthService {
     };
   }
 
-  getMe(req:Request){
+  async getMe(req:Request){
     const token = req.headers?.authorization?.split(' ')[1]
     if(!token) {
       throw new UnauthorizedException("User without session")
@@ -72,7 +72,15 @@ export class AuthService {
     const tokenInfo : tokenPayloadDto = this.jwtService.verify(token)
     if(!tokenInfo) throw new UnauthorizedException("Token expired, please login again")
 
-    const userInfo = this.userService.findOne(Number(token.sub),tokenInfo)
-    return userInfo
+    return this.getUserInfo(tokenInfo)
+  }
+
+  private async getUserInfo(jwtDecoded: tokenPayloadDto) {
+    const userInfo = await this.userService.findOne(jwtDecoded.sub,jwtDecoded)
+    return {
+      name:userInfo.name,
+      email: userInfo.email,
+      id: userInfo.id
+    }
   }
 }
