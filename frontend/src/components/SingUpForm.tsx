@@ -1,7 +1,7 @@
 import { EyeOff, Eye } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { register } from "../services/register"
+import { register } from "../services/user"
 import axios from "axios"
 
 export default function SingUpForm(){
