@@ -22,8 +22,7 @@ import { ClassTransformer } from 'class-transformer';
       ssl: { rejectUnauthorized: false },
       extra: {
         ssl: true,
-        connectionTimeoutMillis: 5000,
-        keepAlive: true
+        family: 4
       }
     }),
     ClassTransformer,
