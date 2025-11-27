@@ -20,7 +20,11 @@ import { ClassTransformer } from 'class-transformer';
       autoLoadEntities: true,
       synchronize: true,
       ssl: { rejectUnauthorized: false },
-      extra: { ssl: true }
+      extra: {
+        ssl: true,
+        connectionTimeoutMillis: 5000,
+        keepAlive: true
+      }
     }),
     ClassTransformer,
     UserModule,
