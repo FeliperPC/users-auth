@@ -19,9 +19,8 @@ import { ClassTransformer } from 'class-transformer';
       database: process.env.DATABASE_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
-      ssl: {
-        rejectUnauthorized: false
-      }
+      ssl: { rejectUnauthorized: false },
+      extra: { ssl: true }
     }),
     ClassTransformer,
     UserModule,
