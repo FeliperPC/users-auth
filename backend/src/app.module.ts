@@ -11,14 +11,17 @@ import { ClassTransformer } from 'class-transformer';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: process.env.DATABASE_TYPE as 'mysql',
+      type: process.env.DATABASE_TYPE as 'postgres',
       host: process.env.DATABASE_HOST,
-      port: process.env.DATABASE_PORT ? +process.env.DATABASE_PORT : undefined,
+      port: Number(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
-      database: process.env.DATABASE_DATABASE,
       password: process.env.DATABASE_PASSWORD,
-      autoLoadEntities: Boolean(process.env.DATABASE_AUTOLOADENTITIES),
-      synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
+      database: process.env.DATABASE_DATABASE,
+      autoLoadEntities: true,
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false
+      }
     }),
     ClassTransformer,
     UserModule,
