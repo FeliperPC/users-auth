@@ -1,10 +1,13 @@
 import { EyeOff, Eye } from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { register } from "../services/user"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate, useNavigation } from "react-router-dom"
+import { register, update } from "../services/user"
 import axios from "axios"
+import type { UpdateUserDto, User } from "../types/types"
 
-export default function SingUpForm(){
+export default function UserForm(){
+  const url = useLocation()
+  const [isUpdating,setIsUpdating]=useState(false)
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [form,setForm]= useState({
@@ -17,6 +20,21 @@ export default function SingUpForm(){
     email: "",
     password: ""
   })
+
+  useEffect(()=>{
+    if(url.pathname=='/update-user'){
+      setIsUpdating(true)
+      const sessionStorageInfo = sessionStorage.getItem("user")
+      if(sessionStorageInfo){
+        const user : User = JSON.parse(sessionStorageInfo)
+        setForm({
+          email : user.email,
+          name : user.name,
+          password : ''
+        })
+      }
+    }
+  },[url.pathname])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>){
     setForm({
@@ -31,11 +49,45 @@ export default function SingUpForm(){
 
   async function handleSubmit(e:React.FormEvent<HTMLFormElement>){
     e.preventDefault()
+    if(!isUpdating){
+      singupSubmit()
+      return
+    }
+    updateSubmit()
+  }
+
+  async function singupSubmit(){
     if(validate()){
       try{
-        const response = await register(form)
+        await register(form)
         alert('User created successfully')
         navigate('/')
+      } catch (error : unknown){
+        if(axios.isAxiosError(error)){
+          alert(error.message)
+        }
+      }
+    }
+  }
+
+  async function updateSubmit(){
+    const token = sessionStorage.getItem("token")
+    const sessionStorageInfo = sessionStorage.getItem("user")
+    if(token && sessionStorageInfo){
+      const user : User = JSON.parse(sessionStorageInfo)
+      const userObjUpdate : UpdateUserDto = {
+        id: user.id
+      }
+      if(form.name){
+        userObjUpdate["name"] = form.name
+      }
+       if(form.password){
+        userObjUpdate["password"] = form.password
+      }
+      try{
+        await update(userObjUpdate, token)
+        alert('User updated successfully')
+        navigate('/dashboard')
       } catch (error : unknown){
         if(axios.isAxiosError(error)){
           alert(error.message)
@@ -67,10 +119,18 @@ export default function SingUpForm(){
     return !errors.name && !errors.password && !errors.email
   }
 
+  function handleReturnPage(){
+    if(!isUpdating){
+      navigate('/')
+      return
+    }
+    navigate('/dashboard')
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col items-center justify-center px-4 h-screen gap-10">
-        <p className="font-bold text-2xl">Sing up</p>
+        <p className="font-bold text-2xl">{isUpdating ? 'Update User': 'Sing up'}</p>
         <div className="w-full flex flex-col gap-8">
           <div className="flex flex-col gap-7">
             <div>
@@ -89,16 +149,17 @@ export default function SingUpForm(){
               <p className="text-sm text-gray-700">Email Adress</p>
               <input
                 type="text"
-                className="focus:outline-gray-300 border border-slate-200 rounded-sm w-full h-10 p-2"
+                className="focus:outline-gray-300 border border-slate-200 rounded-sm w-full h-10 p-2 disabled:bg-gray-200 disabled:text-gray-500"
                 placeholder="email@email.com"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                disabled={isUpdating}
               />
               <p className={`${errors.email ? 'block':'hidden'} text-red-600 text-sm`}>{errors.email}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-700">Create password</p>
+              <p className="text-sm text-gray-700">{isUpdating ? 'New password': 'Create password'}</p>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -120,12 +181,12 @@ export default function SingUpForm(){
           <div className="flex gap-2">
             <button type="button"
               className="text-gray-950 border border-gray-950 w-full py-2.5 font-semibold rounded-4xl"
-              onClick={()=>navigate('/')}
+              onClick={handleReturnPage}
               >
               Cancel
             </button>
             <button type="submit" className="bg-gray-950 text-slate-100 w-full py-2.5 font-semibold rounded-4xl">
-              Sing up
+              {isUpdating ? 'Update': 'Sing up'}
             </button>
           </div>
         </div>

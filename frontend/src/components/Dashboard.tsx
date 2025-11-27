@@ -25,7 +25,7 @@ export default function Dashboard(){
   },[navigate])
   
   function logout(){
-    sessionStorage.removeItem("token")
+    sessionStorage.clear()
     navigate('/')
   }
 
@@ -40,6 +40,11 @@ export default function Dashboard(){
         alert(error.message)
       }
     }
+  }
+
+  function handleUpdate(){
+    sessionStorage.setItem("user",JSON.stringify(user))
+    navigate('/update-user')
   }
 
   return (
@@ -65,6 +70,7 @@ export default function Dashboard(){
           </button>
           <button type="button"
             className="text-gray-950 border border-gray-950 w-full py-2.5 font-semibold rounded-4xl"
+            onClick={handleUpdate}
             >
             Update user
           </button>

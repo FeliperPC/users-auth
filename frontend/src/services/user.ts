@@ -1,4 +1,4 @@
-import type { CreateUserDto } from "../types/types";
+import type { CreateUserDto, UpdateUserDto } from "../types/types";
 import api from "./api";
 
 export async function register(createUserDto: CreateUserDto){
@@ -12,8 +12,22 @@ export async function register(createUserDto: CreateUserDto){
 export async function remove(id:number, token:string){
   const response = await api.delete(`/user/${id}`,{
     headers : {
-      Authorization: `Barrier ${token}`
+      Authorization: `Bearer ${token}`
     }
   })
+  return response
+}
+
+export async function update(updateUserDto:UpdateUserDto, token:string){
+  
+  const response = await api.patch(`/user/${updateUserDto.id}`,
+    updateUserDto,
+    {
+      headers:
+      {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  )
   return response
 }

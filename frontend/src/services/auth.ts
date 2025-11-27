@@ -12,7 +12,7 @@ export async function auth({email,password}:LoginDto){
 export async function authMe(token:string){
   const response = await api.get("/auth/me",{
     headers :{
-      Authorization:`Barrier ${token}`,
+      Authorization:`Bearer ${token}`,
     },
   })
   return response.data

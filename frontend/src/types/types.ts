@@ -15,3 +15,9 @@ export type User ={
   id: number,
   password?: string,
 }
+
+export type UpdateUserDto = {
+  name?:string,
+  password?:string,
+  id:Number
+}
