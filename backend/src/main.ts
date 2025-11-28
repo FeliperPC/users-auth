@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Config that enables this frontend url to invoke this backend http methods
   app.enableCors({
-    origin: 'http://localhost:5173', // seu frontend
+    origin: 'https://users-auth-beta.vercel.app/', // seu frontend
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
