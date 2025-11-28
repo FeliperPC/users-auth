@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ClassTransformer } from 'class-transformer';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -17,9 +18,10 @@ import { ClassTransformer } from 'class-transformer';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_DATABASE,
-      // autoLoadEntities: Boolean(Number(process.env.DATABASE_AUTOLOADENTITIES)),
+      autoLoadEntities: Boolean(Number(process.env.DATABASE_AUTOLOADENTITIES)),
       // synchronize: Boolean(Number(process.env.DATABASE_SYNCHRONIZE)),
       ssl: { rejectUnauthorized: false },
+      entities: [User],
     }),
     ClassTransformer,
     UserModule,
