@@ -7,11 +7,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // Config that enables this frontend url to invoke this backend http methods
-  // app.enableCors({
-  //   origin: 'http://localhost:5173', // seu frontend
-  //   methods: 'GET,POST,PUT,PATCH,DELETE',
-  //   credentials: true,
-  // });
+  app.enableCors({
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
+    methods: 'GET,POST,PUT,PATCH,DELETE',
+    credentials: true,
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }
