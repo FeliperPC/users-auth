@@ -8,7 +8,9 @@ async function bootstrap() {
 
   // Config that enables this frontend url to invoke this backend http methods
   app.enableCors({
-    origin: 'http://localhost:5173', // seu frontend
+    origin: (origin, callback) => {
+      callback(null, true);
+    },
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
