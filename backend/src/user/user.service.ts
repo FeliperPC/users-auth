@@ -52,17 +52,26 @@ export class UserService {
       },
     });
     if (!user) throw new NotFoundException('User not found');
-    if(tokenPayload.sub!=id) throw new UnauthorizedException('Cannot access information about this user')
+    if (tokenPayload.sub != id)
+      throw new UnauthorizedException(
+        'Cannot access information about this user',
+      );
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto, tokenPayload: tokenPayloadDto) {
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+    tokenPayload: tokenPayloadDto,
+  ) {
     const partialUser = {
       name: updateUserDto?.name,
     };
 
     if (updateUserDto.password) {
-      partialUser['passwordHash'] =  await this.hashingService.hash(updateUserDto.password);;
+      partialUser['passwordHash'] = await this.hashingService.hash(
+        updateUserDto.password,
+      );
     }
 
     const personToUpdate = await this.userService.preload({
@@ -71,7 +80,10 @@ export class UserService {
     });
 
     if (!personToUpdate) throw new NotFoundException('User not found');
-    if(tokenPayload.sub!=id) throw new UnauthorizedException('Cannot update information about this user')
+    if (tokenPayload.sub != id)
+      throw new UnauthorizedException(
+        'Cannot update information about this user',
+      );
 
     return this.userService.save(personToUpdate);
   }
@@ -84,7 +96,8 @@ export class UserService {
     });
 
     if (!user) throw new NotFoundException('User not found');
-    if(tokenPayload.sub!=id) throw new UnauthorizedException('Cannot remove this user');
+    if (tokenPayload.sub != id)
+      throw new UnauthorizedException('Cannot remove this user');
 
     return this.userService.remove(user);
   }

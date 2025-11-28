@@ -25,7 +25,7 @@ import { UserService } from 'src/user/user.service';
     },
     AuthTokenGuard,
     AuthService,
-    UserService
+    UserService,
   ],
   controllers: [AuthController],
   exports: [HashingService, JwtModule, ConfigModule, AuthTokenGuard],

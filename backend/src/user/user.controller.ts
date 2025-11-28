@@ -31,19 +31,29 @@ export class UserController {
 
   @UseGuards(AuthTokenGuard)
   @Get(':id')
-  findOne(@Param('id') id: string, @TokenPayload() tokenPayload : tokenPayloadDto) {
+  findOne(
+    @Param('id') id: string,
+    @TokenPayload() tokenPayload: tokenPayloadDto,
+  ) {
     return this.userService.findOne(+id, tokenPayload);
   }
 
   @UseGuards(AuthTokenGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @TokenPayload() tokenPayload : tokenPayloadDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @TokenPayload() tokenPayload: tokenPayloadDto,
+  ) {
     return this.userService.update(+id, updateUserDto, tokenPayload);
   }
 
   @UseGuards(AuthTokenGuard)
   @Delete(':id')
-  remove(@Param('id') id: string, @TokenPayload() tokenPayload : tokenPayloadDto) {
+  remove(
+    @Param('id') id: string,
+    @TokenPayload() tokenPayload: tokenPayloadDto,
+  ) {
     return this.userService.remove(+id, tokenPayload);
   }
 }

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import { AuthTokenGuard } from './guards/auth-token.guard';
@@ -15,7 +24,7 @@ export class AuthController {
 
   @UseGuards(AuthTokenGuard)
   @Get('me')
-  getMe(@Req() req:express.Request){
-    return this.authService.getMe(req)
+  getMe(@Req() req: express.Request) {
+    return this.authService.getMe(req);
   }
 }

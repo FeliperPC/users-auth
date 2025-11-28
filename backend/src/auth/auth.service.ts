@@ -29,7 +29,7 @@ export class AuthService {
 
     private readonly jwtService: JwtService,
 
-    private readonly userService : UserService
+    private readonly userService: UserService,
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -49,14 +49,14 @@ export class AuthService {
     const token = await this.jwtService.signAsync(
       {
         sub: user.id,
-        email: user.email
+        email: user.email,
       },
       {
         secret: this.jwtConfiguration.secret,
         issuer: this.jwtConfiguration.issuer,
         audience: this.jwtConfiguration.audience,
         expiresIn: this.jwtConfiguration.expieres_in,
-      }
+      },
     );
 
     return {
@@ -64,23 +64,24 @@ export class AuthService {
     };
   }
 
-  async getMe(req:Request){
-    const token = req.headers?.authorization?.split(' ')[1]
-    if(!token) {
-      throw new UnauthorizedException("User without session")
+  async getMe(req: Request) {
+    const token = req.headers?.authorization?.split(' ')[1];
+    if (!token) {
+      throw new UnauthorizedException('User without session');
     }
-    const tokenInfo : tokenPayloadDto = this.jwtService.verify(token)
-    if(!tokenInfo) throw new UnauthorizedException("Token expired, please login again")
+    const tokenInfo: tokenPayloadDto = this.jwtService.verify(token);
+    if (!tokenInfo)
+      throw new UnauthorizedException('Token expired, please login again');
 
-    return this.getUserInfo(tokenInfo)
+    return this.getUserInfo(tokenInfo);
   }
 
   private async getUserInfo(jwtDecoded: tokenPayloadDto) {
-    const userInfo = await this.userService.findOne(jwtDecoded.sub,jwtDecoded)
+    const userInfo = await this.userService.findOne(jwtDecoded.sub, jwtDecoded);
     return {
-      name:userInfo.name,
+      name: userInfo.name,
       email: userInfo.email,
-      id: userInfo.id
-    }
+      id: userInfo.id,
+    };
   }
 }
