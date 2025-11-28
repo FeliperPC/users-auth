@@ -1,6 +1,6 @@
 import { EyeOff, Eye } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useLocation, useNavigate, useNavigation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { register, update } from "../services/user"
 import axios from "axios"
 import type { UpdateUserDto, User } from "../types/types"
