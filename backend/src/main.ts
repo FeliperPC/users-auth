@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Config that enables this frontend url to invoke this backend http methods
   app.enableCors({
-    origin: 'https://users-auth-beta.vercel.app/', // seu frontend
+    origin: 'https://users-auth-qmxj.onrender.com', // seu frontend
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
